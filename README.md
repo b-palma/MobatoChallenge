@@ -51,16 +51,19 @@ Relatórios: `mobile/reports/junit.xml` e `report.html`
 
 ## CI (GitHub Actions)
 
-Workflow: `.github/workflows/tests.yml`
+Workflow: `.github/workflows/tests.yml` — execução **manual** (Actions → Run workflow).
 
 | Job | Quando roda | Ambiente |
 |-----|-------------|----------|
-| **Web** | Todo push/PR | Ubuntu + Playwright headless |
-| **Mobile** | Manual (Actions → Run workflow) | macOS + emulador Android |
+| **Web** | Manual | Ubuntu + Playwright headless |
+| **Mobile** | Manual | macOS + emulador Android |
 
-**Por que mobile não roda automaticamente?** Emulador Android no GitHub Actions é instável (`device not found`, boot infinito) — comum em projetos open source. Os testes mobile foram validados **localmente**; o CI garante a suíte web.
+**Por que não roda automaticamente no push/PR?**
 
-Relatório web: artifact `playwright-report` em cada run.
+- **Web:** o site `practicesoftwaretesting.com` usa Cloudflare Turnstile. Runners do GitHub Actions (IPs de datacenter) são bloqueados na tela "Performing security verification", impedindo qualquer interação com a UI — inclusive busca e checkout. A suíte web foi validada **localmente** (`cd web && npm test`).
+- **Mobile:** emulador Android no GitHub Actions é instável (`device not found`, boot infinito). Validado **localmente** (`cd mobile && .\scripts\run-tests.ps1`).
+
+Relatório web (quando rodar manualmente): artifact `playwright-report`.
 
 ## Decisões técnicas
 
@@ -72,8 +75,8 @@ Relatório web: artifact `playwright-report` em cada run.
 
 **Estabilidade** — testes independentes (`clearState` no mobile, usuário novo via API no web); seletores por `data-test` (web) e resource-id (mobile); scroll condicional onde o teclado/botões ficam fora da tela.
 
-**CI** — web no GitHub Actions (estável); mobile executado localmente por limitação de emulador no runner cloud (documentado no README).
+**CI** — web e mobile executados localmente; workflow no GitHub Actions disponível apenas via `workflow_dispatch` (manual). Cloudflare bloqueia runners cloud no site de prática; emulador Android no runner é instável.
 
-**Cloudflare no CI** — o site usa proteção Cloudflare Turnstile. Runners do GitHub Actions (IPs de datacenter) podem ser bloqueados na tela "Performing security verification". Quando isso ocorre, os testes de login autenticam via API (`/users/login`) e injetam o token na sessão do browser, validando em seguida a UI da conta. Localmente, o fluxo completo de login via formulário é exercitado quando o desafio não aparece.
+**Cloudflare** — o site usa proteção Cloudflare Turnstile. IPs de datacenter (GitHub Actions) recebem o desafio "Performing security verification" e o Playwright não consegue acessar a aplicação. Tentamos fallback via API + injeção de token, mas o bloqueio ocorre em todas as rotas do browser. Testes web validados localmente com sucesso.
 
 **IA** — usada para bootstrap do projeto, exploração de seletores e debug de flows instáveis. Decisões de escopo, priorização e asserções foram revisadas manualmente.

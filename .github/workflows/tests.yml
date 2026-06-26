@@ -1,14 +1,12 @@
 name: Tests
 
 on:
-  push:
-    branches: [main, master]
-  pull_request:
   workflow_dispatch:
 
 jobs:
   web:
-    name: Web — Playwright
+    name: Web — Playwright (manual)
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     defaults:
       run:
