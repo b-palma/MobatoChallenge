@@ -31,6 +31,10 @@ export const SELECTORS = {
     signIn: 'nav-sign-in',
     home: 'nav-home',
     cart: 'nav-cart',
+    menu: 'nav-menu',
+  },
+  account: {
+    pageTitle: 'page-title',
   },
   products: {
     searchQuery: 'search-query',

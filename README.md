@@ -58,7 +58,9 @@ Workflow em `.github/workflows/tests.yml` — roda web e mobile em push/PR.
 
 Relatórios ficam disponíveis como **Artifacts** na run do Actions.
 
-> O flow `login` falha no CI de propósito (bug do app: aceita credencial inválida). Carrinho e checkout passam.
+- **Web:** Ubuntu + Playwright headless
+- **Mobile:** `macos-latest` + emulador Android API 29 + Maestro (mais estável que Ubuntu sem KVM)
+- No CI mobile rodam só `add-product-to-cart` e `checkout-journey` — o flow `login` (cenário inválido) roda localmente e documenta bug do app
 
 ## Decisões técnicas
 

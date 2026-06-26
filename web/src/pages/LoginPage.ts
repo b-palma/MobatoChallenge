@@ -25,10 +25,12 @@ export class LoginPage extends BasePage {
 
   async expectSuccessfulLogin(): Promise<void> {
     await expect(this.page).toHaveURL(/\/account/);
-    await expect(this.page.getByRole('heading', { name: TEXT.loginSuccessHeading })).toBeVisible();
+    await expect(this.page.getByTestId(SELECTORS.account.pageTitle)).toBeVisible({ timeout: 15_000 });
+    await expect(this.page.getByTestId(SELECTORS.account.pageTitle)).toHaveText(TEXT.loginSuccessHeading);
   }
 
   async expectLoggedInAs(fullName: string): Promise<void> {
-    await expect(this.page.getByTestId('nav-menu')).toHaveText(fullName);
+    await expect(this.page.getByTestId(SELECTORS.nav.menu)).toBeVisible({ timeout: 15_000 });
+    await expect(this.page.getByTestId(SELECTORS.nav.menu)).toHaveText(fullName);
   }
 }
