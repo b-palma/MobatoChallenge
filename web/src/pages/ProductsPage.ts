@@ -18,7 +18,7 @@ export class ProductsPage extends BasePage {
   }
 
   async expectProductVisible(name: string): Promise<void> {
-    await expect(this.page.getByTestId(SELECTORS.products.name).filter({ hasText: name }).first()).toBeVisible();
+    await expect(this.locator(SELECTORS.products.name).filter({ hasText: name }).first()).toBeVisible();
   }
 
   async expectProductsVisible(names: readonly string[]): Promise<void> {
@@ -29,18 +29,18 @@ export class ProductsPage extends BasePage {
 
   async expectMinimumResults(minimum: number): Promise<void> {
     await expect
-      .poll(async () => this.page.getByTestId(SELECTORS.products.name).count())
+      .poll(async () => this.locator(SELECTORS.products.name).count())
       .toBeGreaterThanOrEqual(minimum);
   }
 
   async expectResultsContainTerm(term: string): Promise<void> {
     const pattern = new RegExp(term, 'i');
-    const names = await this.page.getByTestId(SELECTORS.products.name).allTextContents();
+    const names = await this.locator(SELECTORS.products.name).allTextContents();
     expect(names.some((name) => pattern.test(name))).toBeTruthy();
   }
 
   async openProductByName(name: string): Promise<void> {
-    await this.page.getByTestId(SELECTORS.products.name).filter({ hasText: name }).first().click();
+    await this.locator(SELECTORS.products.name).filter({ hasText: name }).first().click();
   }
 
   async openProductById(productId: string): Promise<void> {

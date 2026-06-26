@@ -10,16 +10,16 @@ export class CartPage extends BasePage {
   }
 
   async expectProductInCart(productName: string): Promise<void> {
-    await expect(this.page.getByTestId('product-title').filter({ hasText: new RegExp(productName, 'i') })).toBeVisible();
+    await expect(this.locator(SELECTORS.cart.productTitle).filter({ hasText: new RegExp(productName, 'i') })).toBeVisible();
   }
 
   async expectNotEmpty(): Promise<void> {
     await expect(this.page.getByText(TEXT.emptyCart)).toHaveCount(0);
-    await expect(this.page.getByTestId('line-price')).toBeVisible();
+    await expect(this.locator(SELECTORS.cart.linePrice)).toBeVisible();
   }
 
   async expectCartTotalVisible(): Promise<void> {
-    await expect(this.page.getByTestId('cart-total')).toBeVisible();
+    await expect(this.locator(SELECTORS.cart.total)).toBeVisible();
   }
 
   async proceedToCheckout(): Promise<void> {

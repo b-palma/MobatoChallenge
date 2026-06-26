@@ -5,7 +5,7 @@ export class BasePage {
   constructor(protected readonly page: Page) {}
 
   protected locator(testId: string): Locator {
-    return this.page.getByTestId(testId);
+    return this.page.locator(`[data-test="${testId}"]`);
   }
 
   async goto(path: string = ROUTES.home): Promise<void> {
