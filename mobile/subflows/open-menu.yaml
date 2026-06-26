@@ -1,0 +1,5 @@
+appId: com.saucelabs.mydemoapp.android
+env:
+  LABEL_MENU: ${LABEL_MENU || "View menu"}
+---
+- tapOn: ${LABEL_MENU}

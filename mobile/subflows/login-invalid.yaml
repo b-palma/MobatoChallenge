@@ -1,0 +1,29 @@
+appId: com.saucelabs.mydemoapp.android
+env:
+  LABEL_MENU: ${LABEL_MENU || "View menu"}
+  LABEL_LOGIN: ${LABEL_LOGIN || "Log In"}
+  LABEL_LOGIN_BUTTON: ${LABEL_LOGIN_BUTTON || "Login"}
+  INVALID_USERNAME: ${INVALID_USERNAME || "invalid@example.com"}
+  INVALID_PASSWORD: ${INVALID_PASSWORD || "wrongpassword"}
+  PRODUCT_NAME: ${PRODUCT_NAME || "Sauce Labs Backpack"}
+---
+- runFlow: open-menu.yaml
+- tapOn: ${LABEL_LOGIN}
+- tapOn:
+    id: com.saucelabs.mydemoapp.android:id/nameET
+- inputText: ${INVALID_USERNAME}
+- tapOn:
+    id: com.saucelabs.mydemoapp.android:id/passwordET
+- inputText: ${INVALID_PASSWORD}
+- assertNotVisible: ${PRODUCT_NAME}
+- tapOn: ${LABEL_LOGIN_BUTTON}
+- runFlow:
+    when:
+      visible: ${PRODUCT_NAME}
+    label: Login invalido foi aceito indevidamente
+    commands:
+      - assertTrue:
+          condition: ${false}
+          label: "BUG: credenciais invalidas (${INVALID_USERNAME}) foram aceitas — catalogo exibido indevidamente"
+- assertVisible:
+    id: com.saucelabs.mydemoapp.android:id/loginBtn

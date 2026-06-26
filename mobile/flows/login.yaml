@@ -1,0 +1,31 @@
+appId: com.saucelabs.mydemoapp.android
+name: Login
+tags:
+  - smoke
+env:
+  APP_ID: com.saucelabs.mydemoapp.android
+  USERNAME: bob@example.com
+  PASSWORD: "10203040"
+  INVALID_USERNAME: invalid@example.com
+  INVALID_PASSWORD: wrongpassword
+  PRODUCT_NAME: Sauce Labs Backpack
+  LABEL_MENU: View menu
+  LABEL_LOGIN: Log In
+  LABEL_USERNAME: Username
+  LABEL_PASSWORD: Password
+  LABEL_LOGIN_BUTTON: Login
+  LABEL_CATALOG: Sauce Labs Backpack
+---
+# Cenário positivo — credenciais válidas
+- launchApp:
+    clearState: true
+- runFlow:
+    label: Login com credenciais validas
+    file: ../subflows/login.yaml
+
+# Cenário negativo — credenciais inválidas devem ser rejeitadas
+- launchApp:
+    clearState: true
+- runFlow:
+    label: Login com credenciais invalidas
+    file: ../subflows/login-invalid.yaml

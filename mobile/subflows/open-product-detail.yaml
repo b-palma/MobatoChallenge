@@ -1,0 +1,8 @@
+appId: com.saucelabs.mydemoapp.android
+env:
+  LABEL_ADD_TO_CART: ${LABEL_ADD_TO_CART || "Add to cart"}
+---
+- tapOn:
+    id: com.saucelabs.mydemoapp.android:id/productIV
+    index: 0
+- assertVisible: ${LABEL_ADD_TO_CART}

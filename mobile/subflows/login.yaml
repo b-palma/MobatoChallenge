@@ -1,0 +1,19 @@
+appId: com.saucelabs.mydemoapp.android
+env:
+  LABEL_MENU: ${LABEL_MENU || "View menu"}
+  LABEL_LOGIN: ${LABEL_LOGIN || "Log In"}
+  LABEL_LOGIN_BUTTON: ${LABEL_LOGIN_BUTTON || "Login"}
+  USERNAME: ${USERNAME || "bob@example.com"}
+  PASSWORD: ${PASSWORD || "10203040"}
+  PRODUCT_NAME: ${PRODUCT_NAME || "Sauce Labs Backpack"}
+---
+- runFlow: open-menu.yaml
+- tapOn: ${LABEL_LOGIN}
+- tapOn:
+    id: com.saucelabs.mydemoapp.android:id/nameET
+- inputText: ${USERNAME}
+- tapOn:
+    id: com.saucelabs.mydemoapp.android:id/passwordET
+- inputText: ${PASSWORD}
+- tapOn: ${LABEL_LOGIN_BUTTON}
+- assertVisible: ${PRODUCT_NAME}

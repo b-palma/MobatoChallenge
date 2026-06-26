@@ -1,0 +1,25 @@
+appId: com.saucelabs.mydemoapp.android
+env:
+  CHECKOUT_FULL_NAME: ${CHECKOUT_FULL_NAME || "Bruno Amaral"}
+  CARD_NUMBER: ${CARD_NUMBER || "3258125678907891"}
+  CARD_EXPIRATION: ${CARD_EXPIRATION || "03/25"}
+  CARD_CVV: ${CARD_CVV || "123"}
+  LABEL_REVIEW_ORDER: ${LABEL_REVIEW_ORDER || "Review Order"}
+---
+- tapOn:
+    id: com.saucelabs.mydemoapp.android:id/nameET
+- eraseText
+- inputText: ${CHECKOUT_FULL_NAME}
+- tapOn:
+    id: com.saucelabs.mydemoapp.android:id/cardNumberET
+- eraseText
+- inputText: ${CARD_NUMBER}
+- tapOn:
+    id: com.saucelabs.mydemoapp.android:id/expirationDateET
+- eraseText
+- inputText: ${CARD_EXPIRATION}
+- tapOn:
+    id: com.saucelabs.mydemoapp.android:id/securityCodeET
+- eraseText
+- inputText: ${CARD_CVV}
+- tapOn: ${LABEL_REVIEW_ORDER}

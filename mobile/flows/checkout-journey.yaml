@@ -1,0 +1,55 @@
+appId: com.saucelabs.mydemoapp.android
+name: Checkout Journey
+tags:
+  - smoke
+env:
+  USERNAME: bob@example.com
+  PASSWORD: "10203040"
+  PRODUCT_NAME: Sauce Labs Backpack
+  LABEL_MENU: View menu
+  LABEL_LOGIN: Log In
+  LABEL_USERNAME: Username
+  LABEL_PASSWORD: Password
+  LABEL_LOGIN_BUTTON: Login
+  LABEL_CATALOG: Sauce Labs Backpack
+  LABEL_ADD_TO_CART: Add to cart
+  LABEL_PROCEED_CHECKOUT: Proceed To Checkout
+  ID_PROCEED_CHECKOUT: com.saucelabs.mydemoapp.android:id/cartBt
+  LABEL_TO_PAYMENT: To Payment
+  LABEL_REVIEW_ORDER: Review Order
+  LABEL_PLACE_ORDER: Place Order
+  LABEL_CHECKOUT_COMPLETE: Checkout Complete
+---
+- launchApp:
+    clearState: true
+- runFlow: ../subflows/login.yaml
+- runFlow: ../subflows/open-product-detail.yaml
+- tapOn: ${LABEL_ADD_TO_CART}
+- tapOn: View cart
+- assertVisible: ${PRODUCT_NAME}
+- scrollUntilVisible:
+    element:
+      id: ${ID_PROCEED_CHECKOUT}
+    direction: DOWN
+- tapOn:
+    id: ${ID_PROCEED_CHECKOUT}
+- runFlow:
+    when:
+      visible:
+        id: com.saucelabs.mydemoapp.android:id/nameET
+    label: Re-login at checkout
+    commands:
+      - tapOn:
+          id: com.saucelabs.mydemoapp.android:id/nameET
+      - inputText: ${USERNAME}
+      - tapOn:
+          id: com.saucelabs.mydemoapp.android:id/passwordET
+      - inputText: ${PASSWORD}
+      - tapOn: ${LABEL_LOGIN_BUTTON}
+- assertVisible:
+    id: com.saucelabs.mydemoapp.android:id/fullNameET
+- runFlow: ../subflows/fill-shipping.yaml
+- runFlow: ../subflows/fill-payment.yaml
+- tapOn: ${LABEL_PLACE_ORDER}
+- assertVisible: ${LABEL_CHECKOUT_COMPLETE}
+

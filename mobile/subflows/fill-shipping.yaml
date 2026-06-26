@@ -1,0 +1,52 @@
+appId: com.saucelabs.mydemoapp.android
+env:
+  CHECKOUT_FULL_NAME: ${CHECKOUT_FULL_NAME || "Bruno Amaral"}
+  CHECKOUT_ADDRESS: ${CHECKOUT_ADDRESS || "Rua Teste 123"}
+  CHECKOUT_CITY: ${CHECKOUT_CITY || "Sao Paulo"}
+  CHECKOUT_STATE: ${CHECKOUT_STATE || "SP"}
+  CHECKOUT_ZIP: ${CHECKOUT_ZIP || "01001000"}
+  CHECKOUT_COUNTRY: ${CHECKOUT_COUNTRY || "Brazil"}
+  LABEL_TO_PAYMENT: ${LABEL_TO_PAYMENT || "To Payment"}
+  ID_TO_PAYMENT: ${ID_TO_PAYMENT || "com.saucelabs.mydemoapp.android:id/paymentBtn"}
+---
+- tapOn:
+    id: com.saucelabs.mydemoapp.android:id/fullNameET
+- eraseText
+- inputText: ${CHECKOUT_FULL_NAME}
+- tapOn:
+    id: com.saucelabs.mydemoapp.android:id/address1ET
+- eraseText
+- inputText: ${CHECKOUT_ADDRESS}
+- tapOn:
+    id: com.saucelabs.mydemoapp.android:id/cityET
+- eraseText
+- inputText: ${CHECKOUT_CITY}
+- scrollUntilVisible:
+    element:
+      id: com.saucelabs.mydemoapp.android:id/stateET
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: com.saucelabs.mydemoapp.android:id/stateET
+- eraseText
+- inputText: ${CHECKOUT_STATE}
+- scrollUntilVisible:
+    element:
+      id: com.saucelabs.mydemoapp.android:id/zipET
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: com.saucelabs.mydemoapp.android:id/zipET
+- eraseText
+- inputText: ${CHECKOUT_ZIP}
+- scrollUntilVisible:
+    element:
+      id: com.saucelabs.mydemoapp.android:id/countryET
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: com.saucelabs.mydemoapp.android:id/countryET
+- eraseText
+- inputText: ${CHECKOUT_COUNTRY}
+- tapOn: "To Payment"
+

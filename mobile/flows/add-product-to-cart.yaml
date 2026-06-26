@@ -1,0 +1,53 @@
+appId: com.saucelabs.mydemoapp.android
+name: Add Product To Cart
+tags:
+  - smoke
+env:
+  USERNAME: bob@example.com
+  PASSWORD: "10203040"
+  PRODUCT_NAME: Sauce Labs Backpack
+  PRODUCT_NAME_2: Sauce Labs Fleece Jacket
+  PRODUCT_MATCH_2: Fleece Jacket
+  SWIPE_COUNT_2: "3"
+  LABEL_MENU: View menu
+  LABEL_LOGIN: Log In
+  LABEL_USERNAME: Username
+  LABEL_PASSWORD: Password
+  LABEL_LOGIN_BUTTON: Login
+  LABEL_CATALOG: Sauce Labs Backpack
+  LABEL_CATALOG_MENU: Catalog
+  LABEL_ADD_TO_CART: Add to cart
+  LABEL_CONTINUE_SHOPPING: Continue Shopping
+  LABEL_REMOVE_ITEM: Remove Item
+  LABEL_INCREASE_QTY: Increase item quantity
+  LABEL_DECREASE_QTY: Decrease item quantity
+  ID_PLUS_QTY: com.saucelabs.mydemoapp.android:id/plusIV
+  ID_MINUS_QTY: com.saucelabs.mydemoapp.android:id/minusIV
+  LABEL_CART_EMPTY: "Oh no! Your cart is empty. Fill it up with swag to complete your purchase."
+  LABEL_PRODUCTS: Products
+  LABEL_CART_ITEMS_TWO: 2 Items
+  LABEL_CART_ITEMS_ONE: 1 Items
+---
+- launchApp:
+    clearState: true
+- runFlow: ../subflows/login.yaml
+- runFlow: ../subflows/open-product-detail.yaml
+- tapOn: ${LABEL_ADD_TO_CART}
+- tapOn: View cart
+- assertVisible: ${PRODUCT_NAME}
+- assertVisible: ${LABEL_CART_ITEMS_ONE}
+- tapOn:
+    id: ${ID_PLUS_QTY}
+- assertVisible: ${LABEL_CART_ITEMS_TWO}
+- assertVisible: ${PRODUCT_NAME}
+- tapOn:
+    id: ${ID_MINUS_QTY}
+- assertVisible: ${LABEL_CART_ITEMS_ONE}
+- runFlow: ../subflows/open-menu.yaml
+- tapOn: View cart
+- assertVisible: ${PRODUCT_NAME}
+- assertVisible: ${LABEL_CART_ITEMS_ONE}
+- tapOn: ${LABEL_REMOVE_ITEM}
+- runFlow: ../subflows/open-menu.yaml
+- tapOn: View cart
+- assertVisible: ${LABEL_CART_EMPTY}
