@@ -41,7 +41,8 @@ jobs:
           retention-days: 7
 
   mobile:
-    name: Mobile — Maestro
+    name: Mobile — Maestro (manual)
+    if: github.event_name == 'workflow_dispatch'
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
@@ -68,7 +69,5 @@ jobs:
         if: always()
         with:
           name: maestro-reports
-          path: |
-            mobile/reports/junit.xml
-            mobile/reports/report.html
+          path: mobile/reports/junit.xml
           retention-days: 7

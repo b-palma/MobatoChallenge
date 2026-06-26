@@ -51,16 +51,16 @@ Relatórios: `mobile/reports/junit.xml` e `report.html`
 
 ## CI (GitHub Actions)
 
-Workflow em `.github/workflows/tests.yml` — roda web e mobile em push/PR.
+Workflow: `.github/workflows/tests.yml`
 
-- **Web:** Ubuntu + Playwright (headless)
-- **Mobile:** emulador Android API 30 + Maestro + APK do My Demo App
+| Job | Quando roda | Ambiente |
+|-----|-------------|----------|
+| **Web** | Todo push/PR | Ubuntu + Playwright headless |
+| **Mobile** | Manual (Actions → Run workflow) | macOS + emulador Android |
 
-Relatórios ficam disponíveis como **Artifacts** na run do Actions.
+**Por que mobile não roda automaticamente?** Emulador Android no GitHub Actions é instável (`device not found`, boot infinito) — comum em projetos open source. Os testes mobile foram validados **localmente**; o CI garante a suíte web.
 
-- **Web:** Ubuntu + Playwright headless
-- **Mobile:** `macos-latest` + emulador Android API 29 + Maestro (mais estável que Ubuntu sem KVM)
-- No CI mobile rodam só `add-product-to-cart` e `checkout-journey` — o flow `login` (cenário inválido) roda localmente e documenta bug do app
+Relatório web: artifact `playwright-report` em cada run.
 
 ## Decisões técnicas
 
@@ -71,5 +71,7 @@ Relatórios ficam disponíveis como **Artifacts** na run do Actions.
 **Dados** — centralizados em `web/.env` + constants e `mobile/constants/variables.env`; injetados nos testes via env vars.
 
 **Estabilidade** — testes independentes (`clearState` no mobile, usuário novo via API no web); seletores por `data-test` (web) e resource-id (mobile); scroll condicional onde o teclado/botões ficam fora da tela.
+
+**CI** — web no GitHub Actions (estável); mobile executado localmente por limitação de emulador no runner cloud (documentado no README).
 
 **IA** — usada para bootstrap do projeto, exploração de seletores e debug de flows instáveis. Decisões de escopo, priorização e asserções foram revisadas manualmente.

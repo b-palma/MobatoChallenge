@@ -49,3 +49,5 @@ Cada flow usa `launchApp: clearState: true` — estado limpo a cada execução.
 Tag: `smoke` em todos os flows.
 
 Variáveis: `constants/variables.env` (fonte) + `.env` (overrides locais).
+
+> Testes mobile rodam localmente (emulador + Maestro). CI cloud não inclui mobile — emulador Android no GitHub Actions é instável.
