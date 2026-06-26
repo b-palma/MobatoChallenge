@@ -74,4 +74,6 @@ Relatório web: artifact `playwright-report` em cada run.
 
 **CI** — web no GitHub Actions (estável); mobile executado localmente por limitação de emulador no runner cloud (documentado no README).
 
+**Cloudflare no CI** — o site usa proteção Cloudflare Turnstile. Runners do GitHub Actions (IPs de datacenter) podem ser bloqueados na tela "Performing security verification". Quando isso ocorre, os testes de login autenticam via API (`/users/login`) e injetam o token na sessão do browser, validando em seguida a UI da conta. Localmente, o fluxo completo de login via formulário é exercitado quando o desafio não aparece.
+
 **IA** — usada para bootstrap do projeto, exploração de seletores e debug de flows instáveis. Decisões de escopo, priorização e asserções foram revisadas manualmente.

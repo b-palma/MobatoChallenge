@@ -8,11 +8,10 @@ test.describe('Checkout', () => {
     cartPage,
     checkoutPage,
     api,
-  }) => {
+  }, testInfo) => {
     const user = await api.createUser();
 
-    await loginPage.open();
-    await loginPage.login(user.email, user.password);
+    await loginPage.ensureAuthenticated(user, api, testInfo);
     await loginPage.expectSuccessfulLogin();
     await loginPage.expectLoggedInAs(`${TEST_DATA.userDefaults.firstName} ${TEST_DATA.userDefaults.lastName}`);
 
